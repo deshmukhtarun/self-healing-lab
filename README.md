@@ -98,8 +98,8 @@ self-healing-lab/
 
 ### Run the app
 ```bash
-git clone https://github.com/deshmukhtarun/devops-projects.git
-cd devops-projects
+git clone https://github.com/deshmukhtarun/self-healing-lab.git
+cd self-healing-lab
 docker compose up --build -d
 ```
 
