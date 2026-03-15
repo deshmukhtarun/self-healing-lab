@@ -1,7 +1,9 @@
 from flask import Flask, jsonify
+from prometheus_flask_exporter import PrometheusMetrics
 import time
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 start_time = time.time()
 
 @app.route('/')
@@ -11,10 +13,6 @@ def home():
 @app.route('/health')
 def health():
     return jsonify({"healthy": True}), 200
-
-@app.route('/metrics-test')
-def metrics():
-    return jsonify({"requests_served": 42}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
