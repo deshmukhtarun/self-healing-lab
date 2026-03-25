@@ -1,0 +1,93 @@
+{
+  "title": "Self-Healing Lab — Flask App",
+  "uid": "self-healing-lab",
+  "version": 1,
+  "schemaVersion": 36,
+  "refresh": "10s",
+  "panels": [
+    {
+      "id": 1,
+      "title": "App Status (1 = up, 0 = down)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "up{job=\"flask-app\"}",
+          "datasource": { "type": "prometheus" }
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": 0 },
+              { "color": "green", "value": 1 }
+            ]
+          },
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "DOWN" }, "1": { "text": "UP" } } }
+          ]
+        }
+      }
+    },
+    {
+      "id": 2,
+      "title": "Total HTTP Requests",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
+      "targets": [
+        {
+          "expr": "flask_http_request_total",
+          "datasource": { "type": "prometheus" }
+        }
+      ],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "blue", "value": 0 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "title": "Request Rate (per second)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "targets": [
+        {
+          "expr": "rate(flask_http_request_total[1m])",
+          "legendFormat": "requests/sec",
+          "datasource": { "type": "prometheus" }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Average Response Time (seconds)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+      "targets": [
+        {
+          "expr": "rate(flask_http_request_duration_seconds_sum[1m]) / rate(flask_http_request_duration_seconds_count[1m])",
+          "legendFormat": "avg response time",
+          "datasource": { "type": "prometheus" }
+        }
+      ]
+    }
+  ],
+  "time": { "from": "now-15m", "to": "now" }
+}
