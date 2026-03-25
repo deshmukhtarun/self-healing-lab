@@ -42,12 +42,13 @@ and heals itself.
 │                             │    :3000       │   │
 │                             └────────────────┘   │
 └─────────────────────────────────────────────────┘
+```
 
+---
 
 ## Dashboard Preview
 
 ![Grafana Dashboard](docs/images/grafana-dashboard.png)
-```
 
 ---
 
@@ -82,40 +83,42 @@ self-healing-lab/
 │   ├── Dockerfile          # Container definition
 │   └── requirements.txt    # Python dependencies
 ├── monitoring/
-│   ├── prometheus.yml      # Scrape config (coming Phase 2)
-│   ├── alert.rules.yml     # Alert definitions (coming Phase 4)
-│   └── grafana/            # Dashboard JSON exports (coming Phase 3)
+│   ├── prometheus.yml      # Scrape config — Phase 2
+│   ├── alert.rules.yml     # Alert definitions — Phase 4
+│   └── grafana/            # Dashboard + provisioning config — Phase 3
 ├── healing/
-│   └── heal.py             # Auto-restart script (coming Phase 5)
+│   └── heal.py             # Auto-restart script — Phase 5
 ├── docs/
-│   └── architecture.md     # Detailed architecture notes
+│   ├── images/             # Screenshots
+│   └── architecture.md     # Architecture notes
 ├── docker-compose.yml      # Full stack definition
 └── README.md
 ```
 
 ---
 
-## How to Run (Phase 1)
+## How to Run (Phases 1–3)
 
 ### Prerequisites
 - Docker + Docker Compose installed
 - Linux / WSL Ubuntu
 
-### Run the app
+### Run the full stack
 ```bash
 git clone https://github.com/deshmukhtarun/self-healing-lab.git
 cd self-healing-lab
 docker compose up --build -d
 ```
 
-### Test it
+### Test the Flask app
 ```bash
 curl http://localhost:5000/health
 # Expected: {"healthy": true}
-
-curl http://localhost:5000/
-# Expected: {"status": "running", "uptime": 4.2}
 ```
+
+### Access the dashboards
+- Prometheus: http://localhost:9090
+- Grafana: http://localhost:3000 (admin / admin123)
 
 ---
 
